@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "b868b332-cf13-4a3f-a370-ec9da650663c",
+		"name": "Mini Wallet",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Account or Get Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customer_xid\": \"9507c1d7-a216-4982-8801-60f4e979c5b0\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/init",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"init"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enable Wallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token PMRGCY3DN52W45C7NFSCEORAEI4TKMBXMMYWINZNMEZDCNRNGQ4TQMRNHA4DAMJNGYYGMNDFHE3TSYZVMIYCE7I=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/wallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"wallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Wallet",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token PMRGCY3DN52W45C7NFSCEORAEI3TIZJYGAZTIZRNGJRDCYJNGQ2TQOBNMI2WCNJNGI3GIYTGHE2TMMBTGY4SE7I=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/wallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"wallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Disabled Wallet",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token PMRGCY3DN52W45C7NFSCEORAEI4TKMBXMMYWINZNMEZDCNRNGQ4TQMRNHA4DAMJNGYYGMNDFHE3TSYZVMIYCE7I=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/wallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"wallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Wallet - Add Money",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token PMRGCY3DN52W45C7NFSCEORAEI4TKMBXMMYWINZNMEZDCNRNGQ4TQMRNHA4DAMJNGYYGMNDFHE3TSYZVMIYCE7I=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 1000,\n    \"reference_id\": \"736d4f53-34a2-4db0-99d5-b296a1c92811\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/wallet/deposits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"wallet",
+						"deposits"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Wallet - Withdrawals Money",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token PMRGCY3DN52W45C7NFSCEORAEI4TKMBXMMYWINZNMEZDCNRNGQ4TQMRNHA4DAMJNGYYGMNDFHE3TSYZVMIYCE7I=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 1000,\n    \"reference_id\": \"736d4f53-34a2-4db0-99d5-b296a1c92813\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/wallet/withdrawals",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"wallet",
+						"withdrawals"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
