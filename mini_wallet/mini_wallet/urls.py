@@ -23,5 +23,7 @@ urlpatterns = [
     path('api/v1/wallet', views.Wallet.as_view(), name='wallet'),
     path('api/v1/wallet/deposits', views.DepositMoney.as_view(), name='deposits'),
     path('api/v1/wallet/withdrawals', views.WithdrawalMoney.as_view(), name='withdrawal'),
-    path('api/v1/init', views.Account.as_view(), name="account")
+    path('api/v1/init', views.Account.as_view(), name="account"),
+    path('api/v1/send/otp', views.SendOTP.as_view(), name='generate_otp'),
+    path('api/v1/verify/otp', views.VerifyAccount.as_view(), name='verify_otp')
 ]

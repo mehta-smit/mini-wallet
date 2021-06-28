@@ -10,8 +10,8 @@ from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.status import HTTP_400_BAD_REQUEST
 
 from .constants import STATUS
-from .serializer import AccountSerializer, WalletSerializer, WalletTransxSerializer
-from .utils import IsAPIAuthenticated
+from .serializer import AccountSerializer, WalletSerializer, WalletTransxSerializer, OTPSerializer
+from .utils import IsAPIAuthenticated, GenerateOTP
 from .api_exceptions import response_formatter
 
 
@@ -157,11 +157,69 @@ class Account(APIView):
             account = AccountSerializer.get_account(account_id=request.data['customer_xid'])
             account_id = account.id
         else:
-            account_id = AccountSerializer.create_account()
+            mobile_number = request.data['mobile_number']
+            is_exists = AccountSerializer.is_account_exists(mobile_number)
+            if is_exists:
+                return Response(dict(
+                    status="success",
+                    data=dict(
+                        message=f"Account already exists with mobile number {mobile_number}"
+                    )
+                ))
+            account_id = AccountSerializer.create_account(
+                name=request.data['name'],
+                mobile_number=request.data['mobile_number']
+            )
         token = b32encode(json.dumps(dict(account_id=str(account_id))).encode('utf-8'))
         return Response(dict(
             data=dict(
                 token=token
+            ),
+            status='success'
+        ))
+
+
+class SendOTP(APIView):
+    """
+    A Class to generate OTP and send to customer's mobile number.
+    """
+    permission_classes = (IsAPIAuthenticated,)
+
+    def post(self, request):
+        account_id = request.data.pop('account_id')
+        account = AccountSerializer.get_account(account_id=account_id)
+        otp = GenerateOTP.generate()
+        otp_id = OTPSerializer.generate_otp(otp, account)
+        print(f"OTP is generated for account {account_id}, otp_id {otp_id}")
+
+        return Response(dict(
+            data=dict(
+                message="OTP is sent to your registered account."
+            ),
+            status='success'
+        ))
+
+
+class VerifyAccount(APIView):
+    """
+    A class to verify account using OTP sent to mobile number.
+    """
+
+    permission_classes = (IsAPIAuthenticated,)
+
+    def post(self, request):
+        account_id = request.data.pop('account_id')
+        account = AccountSerializer.get_account(account_id=account_id)
+        otp = request.data.pop('otp')
+        otp_obj = OTPSerializer.get_otp(account=account)
+
+        if otp_obj.otp == otp:
+            OTPSerializer.otp_verified(account)
+            AccountSerializer.account_verified(account.id)
+
+        return Response(dict(
+            data=dict(
+                message="Mobile Number is verified successfully."
             ),
             status='success'
         ))

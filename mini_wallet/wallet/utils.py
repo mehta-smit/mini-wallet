@@ -1,5 +1,6 @@
 import binascii
 import json
+import random
 from base64 import b32encode, b32decode
 
 from rest_framework.authentication import TokenAuthentication
@@ -48,3 +49,17 @@ class IsAPIAuthenticated(IsAuthenticated):
 
     def has_permission(self, request, view):
         return request.account and not request.account.is_deleted
+
+
+class GenerateOTP:
+    @classmethod
+    def generate(cls):
+        otp = ""
+        for i in range(1, 3):
+            otp += chr(random.randint(65, 90))
+            otp += chr(random.randint(97, 122))
+            otp += str(random.randint(0, 9))
+
+        print("otp : ", otp)
+        return otp
+

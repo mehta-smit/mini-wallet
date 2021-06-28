@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from django.db import models
-
+import datetime
 
 # Create your models here.
 
@@ -17,6 +17,9 @@ class BaseClass(models.Model):
 
 class Account(BaseClass):
     id = models.UUIDField(primary_key=True, default=uuid4(), editable=False)
+    name = models.CharField(null=False, max_length=20)
+    mobile_number = models.CharField(null=False, max_length=10)
+    mobile_verified = models.BooleanField(null=False, default=False)
 
     class Meta:
         default_related_name = 'account'
@@ -47,3 +50,11 @@ class WalletTransx(BaseClass):
         default_related_name = 'wallet_transaction'
 
     objects = models.Manager()
+
+
+class OtpVerification(BaseClass):
+    id = models.UUIDField(primary_key=True, default=uuid4(), editable=False)
+    otp = models.BigIntegerField(blank=False, null=False)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    is_verified = models.BooleanField(null=False, default=False)
+    expired_at = models.DateTimeField(default=datetime.datetime.now() + datetime.timedelta(minutes=20))
